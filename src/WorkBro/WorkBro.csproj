@@ -10,4 +10,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MyLab.ApiClient" Version="3.16.26" />
+    <PackageReference Include="MyLab.Log.Dsl" Version="3.5.3" />
+  </ItemGroup>
+
 </Project>
