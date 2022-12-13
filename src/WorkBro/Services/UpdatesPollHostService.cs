@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MyLab.Log.Dsl;
-using WorkBro.Telegramm;
+using WorkBro.Telegram;
 
 namespace WorkBro.Services
 {
@@ -27,11 +27,11 @@ namespace WorkBro.Services
         {
             do
             {
-                TelegramUpdate[]? updates;
+                TelegramResult<TelegramUpdate[]>? updates;
 
                 try
                 {
-                    updates = await _api.GetUpdatesAsync("bot" + _options.Token, -1, 10, 25);
+                    updates = await _api.GetUpdatesAsync(-1, 10, 25);
                 }
                 catch (Exception e)
                 {
@@ -43,11 +43,11 @@ namespace WorkBro.Services
                     continue;
                 }
 
-                if (updates != null && updates.Length != 0)
+                if (updates is { Ok: true, Result.Length: > 0 })
                 {
                     try
                     {
-                        await _broLogic.ProcessUpdatesAsync(updates);
+                        await _broLogic.ProcessUpdatesAsync(updates.Result);
                     }
                     catch (Exception e)
                     {
